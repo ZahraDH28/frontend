@@ -24,11 +24,9 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
-import { useToast } from "@/components/ui/use-toast"
 
 const Reservations = () => {
   const navigate = useNavigate()
-  const { toast } = useToast()
   const [reservations, setReservations] = useState([])
   const [loading, setLoading] = useState(true)
   const [deleteId, setDeleteId] = useState(null)
@@ -42,11 +40,6 @@ const Reservations = () => {
         }
       } catch (error) {
         console.error('Error fetching reservations:', error)
-        toast({
-          title: "Error",
-          description: "Gagal mengambil data reservasi",
-          variant: "destructive",
-        })
       } finally {
         setLoading(false)
       }
@@ -60,18 +53,10 @@ const Reservations = () => {
       const response = await axios.delete(`http://127.0.0.1:8080/api/reservations/${id}`)
       if (response.data.success) {
         setReservations(reservations.filter(res => res.id !== id))
-        toast({
-          title: "Berhasil",
-          description: "Reservasi berhasil dihapus",
-        })
+        console.log('Reservasi berhasil dihapus')
       }
     } catch (error) {
       console.error('Error deleting reservation:', error)
-      toast({
-        title: "Error",
-        description: "Gagal menghapus reservasi",
-        variant: "destructive",
-      })
     }
     setDeleteId(null)
   }
